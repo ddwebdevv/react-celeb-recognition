@@ -3,6 +3,7 @@ import './FaceRecognition.css';
 
 //rendering face boxes
 const RenderBox = ({face}) => {
+    console.log(face);
     const {name, leftCol, rightCol, topRow, bottomRow}  = face;
     return(
         <React.Fragment>
@@ -19,7 +20,7 @@ const RenderBox = ({face}) => {
                          bottom: bottomRow                   
                         }} >
             </div>
-            <div className='nameAbove' style={{ color: 'black' }} >{name}</div>
+            
         </React.Fragment>
     );
 }
@@ -31,12 +32,18 @@ const FaceRecognition = ({ imageUrl, faces }) => {
             <RenderBox face={face} />
         </div>
     ));
+    const names = faces.map((face, index) => (
+        <div key={index} >
+            <div className='nameAbove mt2' style={{ color: 'black' }} >{face.name}, </div>
+        </div>
+    ));
     return(
         <div className='center ma'> 
-            <div className='absolute mt2'>
+            <div className='absolute mt4'>
                 <img id='inputimage' src={imageUrl} alt='' width='500px' height='auto' />
                 {boxes}
             </div>
+            {names}
         </div>
     );
 }

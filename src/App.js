@@ -39,6 +39,7 @@ class App extends Component {
         const height = Number(image.height);
         const clarifaiFaces = data.outputs[0].data.regions.map(face => {
             const  clarifaiFace = face.region_info.bounding_box;
+            console.log(face.region_info.bounding_box.bottom_row, height, face.region_info.bounding_box.bottom_row*height);
             return {
                     leftCol: clarifaiFace.left_col*width,
                     topRow: clarifaiFace.top_row*height,

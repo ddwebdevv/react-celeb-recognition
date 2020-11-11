@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Clarifai from 'clarifai';
 import Logo from './components/Logo/Logo';
+import ErrorMess from './components/ErrorMess/ErrorMess';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Particles from 'react-particles-js';
@@ -29,7 +30,8 @@ class App extends Component {
         this.state = {
             input: '',
             imageUrl: '',
-            faces: []
+            faces: [],
+            errMess: ''
         }
     }
         //calculating coordinates for face boxes and extracting names of celebrities
@@ -58,14 +60,21 @@ class App extends Component {
     onInputChange = (event) => {
         this.setState({ input: event.target.value});
     } 
+
+    errorHandler = (err) => {
+        console.log(err);
+        this.setState({ errMess: err });
+    }
         //fetching data using Clarifai API. 
     onButtonSubmit = () => {
-        this.setState({ imageUrl: this.state.input});
+        this.setState({ imageUrl: this.state.input,
+                        faces: [],          //set state to init values
+                        errMess: ''}); 
         app.models.predict(
                 Clarifai.CELEBRITY_MODEL,
                 this.state.input)
             .then((response) => this.displayFaceBox(this.calculateFaces(response)))
-            .catch(err => console.log(err));
+            .catch(err => this.errorHandler((err)));
     }
 
     render() {
@@ -74,6 +83,7 @@ class App extends Component {
             <Particles className='particles' params={particlesOptions} />
             <Logo />
             <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />            
+            <ErrorMess errMess={this.state.errMess} />
             <FaceRecognition faces={this.state.faces} imageUrl={this.state.imageUrl} /> 
         </div>
         );

@@ -34,7 +34,7 @@ const FaceRecognition = ({ imageUrl, faces }) => {
     ));
     const names = faces.map((face, index) => (
         <div key={index} >
-            <div className='nameAbove mt2' style={{ color: 'black' }} >{face.name}, </div>
+            <div className='nameAbove mt2' style={{ color: 'black' }} > {face.name}. </div>
         </div>
     ));
     return(

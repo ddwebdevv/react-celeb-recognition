@@ -19,6 +19,7 @@ const RenderBox = ({face}) => {
                          bottom: bottomRow                   
                         }} >
             </div>
+            <div className='nameAbove' style={{ color: 'black' }} >{name}</div>
         </React.Fragment>
     );
 }

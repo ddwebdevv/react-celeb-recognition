@@ -1,19 +1,40 @@
 import React from 'react';
 import './FaceRecognition.css';
 
+//rendering face boxes
+const RenderBox = ({face}) => {
+    const {name, leftCol, rightCol, topRow, bottomRow}  = face;
+    return(
+        <React.Fragment>
+            <div className='nameAbove box'
+                    style={{ top: topRow - 20,
+                             left: leftCol                 
+                            }} >
+                {name} 
+            </div>
+            <div className='bounding-box box' 
+                style={{ top: topRow,
+                         right: rightCol,
+                         left: leftCol,
+                         bottom: bottomRow                   
+                        }} >
+            </div>
+        </React.Fragment>
+    );
+}
+     
 
-const FaceRecognition = ({ imageUrl, box }) => {
-    console.log(box);
+const FaceRecognition = ({ imageUrl, faces }) => {
+    const boxes = faces.map((face, index) => (
+        <div key={index} >
+            <RenderBox face={face} />
+        </div>
+    ));
     return(
         <div className='center ma'> 
             <div className='absolute mt2'>
-                <img id='inputimage' src={imageUrl} alt='your image' width='500px' height='auto' />
-                <div className='bounding-box' 
-                    style={{ top: box.topRow,
-                             right: box.rightCol,
-                             left: box.leftCol,
-                             bottom: box.bottomRow                       
-                            }} ></div>
+                <img id='inputimage' src={imageUrl} alt='' width='500px' height='auto' />
+                {boxes}
             </div>
         </div>
     );
